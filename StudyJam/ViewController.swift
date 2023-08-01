@@ -80,7 +80,7 @@ class ViewController: UIViewController {
     collectionLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     collectionLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
-    
+    collectionView.isUserInteractionEnabled = false
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     return collectionView
   }()
