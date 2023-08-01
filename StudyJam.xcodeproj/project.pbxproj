@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		52532E7B2A79492C008648ED /* StackView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52532E7A2A79492C008648ED /* StackView + Extension.swift */; };
+		52532E7D2A798865008648ED /* CustomViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52532E7C2A798865008648ED /* CustomViewCell.swift */; };
 		52F73F712A792A0300D19CD3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F73F702A792A0300D19CD3 /* AppDelegate.swift */; };
 		52F73F732A792A0300D19CD3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F73F722A792A0300D19CD3 /* SceneDelegate.swift */; };
 		52F73F752A792A0300D19CD3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F73F742A792A0300D19CD3 /* ViewController.swift */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		52532E7A2A79492C008648ED /* StackView + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StackView + Extension.swift"; sourceTree = "<group>"; };
+		52532E7C2A798865008648ED /* CustomViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewCell.swift; sourceTree = "<group>"; };
 		52F73F6D2A792A0300D19CD3 /* StudyJam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyJam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F73F702A792A0300D19CD3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52F73F722A792A0300D19CD3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 				52F73F702A792A0300D19CD3 /* AppDelegate.swift */,
 				52F73F722A792A0300D19CD3 /* SceneDelegate.swift */,
 				52F73F742A792A0300D19CD3 /* ViewController.swift */,
+				52532E7C2A798865008648ED /* CustomViewCell.swift */,
 				52532E7A2A79492C008648ED /* StackView + Extension.swift */,
 				52F73F762A792A0300D19CD3 /* Main.storyboard */,
 				52F73F792A792A0500D19CD3 /* Assets.xcassets */,
@@ -142,6 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				52F73F752A792A0300D19CD3 /* ViewController.swift in Sources */,
+				52532E7D2A798865008648ED /* CustomViewCell.swift in Sources */,
 				52F73F712A792A0300D19CD3 /* AppDelegate.swift in Sources */,
 				52F73F732A792A0300D19CD3 /* SceneDelegate.swift in Sources */,
 				52532E7B2A79492C008648ED /* StackView + Extension.swift in Sources */,

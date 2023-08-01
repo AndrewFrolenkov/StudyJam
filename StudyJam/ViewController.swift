@@ -9,6 +9,9 @@ import UIKit
 
 class ViewController: UIViewController {
   
+  var mode = false
+  var arraySkills = ["MVI/MVVM", "Kotlin Coroutines", "Room", "OkHttp"]
+  
   // Properties
   private lazy var scrollView: UIScrollView = {
     let scrollView = UIScrollView()
@@ -72,9 +75,12 @@ class ViewController: UIViewController {
   
   lazy var collectionView: UICollectionView = {
     let collectionLayout = UICollectionViewFlowLayout()
-    collectionLayout.itemSize = CGSize(width: 100, height: 100)
+    collectionLayout.minimumLineSpacing = 10
+    collectionLayout.minimumInteritemSpacing = 10
+    collectionLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    collectionLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
-    collectionView.backgroundColor = .blue
+    
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     return collectionView
   }()
@@ -87,6 +93,32 @@ class ViewController: UIViewController {
     return mySkill
   }()
   
+  lazy var editButton: UIButton = {
+    let editButton = UIButton()
+    editButton.setImage(UIImage(named: "edit"), for: .normal)
+    editButton.addTarget(self, action: #selector(editSkill), for: .touchUpInside)
+    editButton.translatesAutoresizingMaskIntoConstraints = false
+    return editButton
+  }()
+  
+  lazy var descreptionLabel: UILabel = {
+    let mySkill = UILabel()
+    mySkill.text = "О Себе"
+    mySkill.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+    mySkill.translatesAutoresizingMaskIntoConstraints = false
+    return mySkill
+  }()
+  
+  lazy var textView: UITextView = {
+    let textView = UITextView()
+    textView.text = "Experienced software engineer skilled in developing scalable and maintainable systems"
+    textView.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+    textView.textColor = #colorLiteral(red: 0.2511924207, green: 0.2511924207, blue: 0.2511924207, alpha: 1)
+    textView.backgroundColor = .clear
+    textView.translatesAutoresizingMaskIntoConstraints = false
+    return textView
+  }()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -97,9 +129,28 @@ class ViewController: UIViewController {
     configureTableView()
   }
   
+  // MARK: - Action
+  
+  @objc func editSkill() {
+    if mode {
+      collectionView.isUserInteractionEnabled = false
+      editButton.setImage(UIImage(named: "edit"), for: .normal)
+      arraySkills.removeLast()
+      collectionView.reloadData()
+    } else {
+      collectionView.isUserInteractionEnabled = true
+      editButton.setImage(UIImage(named: "done"), for: .normal)
+      arraySkills.append("+")
+      collectionView.reloadData()
+    }
+    
+    mode = !mode
+   
+  }
+  
   // Configure CollectionView
   private func configureTableView() {
-    collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+    collectionView.register(CustomViewCell.self, forCellWithReuseIdentifier: "Cell")
     collectionView.delegate = self
     collectionView.dataSource = self
   }
@@ -127,7 +178,10 @@ class ViewController: UIViewController {
     contentView.addSubview(locationImageView)
     contentView.addSubview(locationLabel)
     contentView.addSubview(mySkill)
+    contentView.addSubview(editButton)
     contentView.addSubview(collectionView)
+    contentView.addSubview(descreptionLabel)
+    contentView.addSubview(textView)
     
   }
   
@@ -173,10 +227,25 @@ class ViewController: UIViewController {
       mySkill.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 40),
       mySkill.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
       
-      collectionView.topAnchor.constraint(equalTo: mySkill.bottomAnchor, constant: 4),
+      editButton.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 40),
+      editButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+      editButton.widthAnchor.constraint(equalToConstant: 24),
+      editButton.heightAnchor.constraint(equalToConstant: 24),
+      
+      collectionView.topAnchor.constraint(equalTo: mySkill.bottomAnchor, constant: 16),
       collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
       collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-      collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+      
+      descreptionLabel.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 16),
+      descreptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+      
+      textView.topAnchor.constraint(equalTo: descreptionLabel.bottomAnchor, constant: 8),
+      textView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 11),
+      textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -11),
+      textView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -100),
+      textView.heightAnchor.constraint(equalToConstant: 100),
+
+      
       
     ])
     
@@ -186,15 +255,51 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 20
+    return arraySkills.count
   }
   
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    print("df")
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-    cell.backgroundColor = .red
+    
+    let text = arraySkills[indexPath.item]
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CustomViewCell
+    cell.textLabel.text = text
+    
+    if mode {
+      if indexPath.row == arraySkills.count - 1 {
+        print("ww")
+        cell.imageView.tintColor = .clear
+      }
+      cell.imageView.isHidden = false
+    } else {
+      cell.imageView.isHidden = true
+    }
+    
     return cell
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    
+    let cell = collectionView.cellForItem(at: indexPath) as! CustomViewCell
+    if cell.textLabel.text == "+" {
+      let alert = UIAlertController(title: "Добавление навыка", message: "Введите название навыка которым вы владеете", preferredStyle: .alert)
+      alert.addTextField { (textField : UITextField!) -> Void in
+              textField.placeholder = "Skill"
+          }
+      let action = UIAlertAction(title: "Отмена", style: .cancel)
+      let addAction = UIAlertAction(title: "Добавить", style: .default) { [weak self] alertAction in
+        let tf = alert.textFields![0]
+        self?.arraySkills.insert(tf.text!, at: (self?.arraySkills.endIndex)! - 1)
+        collectionView.reloadData()
+      }
+      alert.addAction(action)
+      alert.addAction(addAction)
+      present(alert, animated: true)
+    } else {
+      arraySkills.remove(at: indexPath.row)
+      collectionView.deleteItems(at: [indexPath])
+    }
+   
   }
   
   
