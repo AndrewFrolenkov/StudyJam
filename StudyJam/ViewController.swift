@@ -10,7 +10,7 @@ import UIKit
 class ViewController: UIViewController {
   
   var mode = false
-  var arraySkills = ["MVI/MVVM", "Kotlin Coroutines", "Room", "OkHttp"]
+  var arraySkills = ["MVI/MVVM", "Kotlin Coroutines", "Room", "OkHttp", "DataStore", "WorkManager", "custom view", "ООП и SOLID", "DataStore",  "DataStore"]
   
   // Properties
   private lazy var scrollView: UIScrollView = {
@@ -80,7 +80,6 @@ class ViewController: UIViewController {
     collectionLayout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     collectionLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionLayout)
-    collectionView.isUserInteractionEnabled = false
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     return collectionView
   }()
@@ -111,7 +110,7 @@ class ViewController: UIViewController {
   
   lazy var textView: UITextView = {
     let textView = UITextView()
-    textView.text = "Experienced software engineer skilled in developing scalable and maintainable systems"
+    textView.text = "Experienced software engineer skilled in developing scalable and maintainable systems.Information technology (IT or IT) is a set of interrelated scientific and technical fields of knowledge that study and put into practice methods for creating, processing, storing, protecting and transmitting information using computer technology.Since all of the above is now performed using computer technology, IT usually means computer technology. "
     textView.font = UIFont.systemFont(ofSize: 14, weight: .regular)
     textView.textColor = #colorLiteral(red: 0.2511924207, green: 0.2511924207, blue: 0.2511924207, alpha: 1)
     textView.backgroundColor = .clear
@@ -133,12 +132,10 @@ class ViewController: UIViewController {
   
   @objc func editSkill() {
     if mode {
-      collectionView.isUserInteractionEnabled = false
       editButton.setImage(UIImage(named: "edit"), for: .normal)
       arraySkills.removeLast()
       collectionView.reloadData()
     } else {
-      collectionView.isUserInteractionEnabled = true
       editButton.setImage(UIImage(named: "done"), for: .normal)
       arraySkills.append("+")
       collectionView.reloadData()
@@ -244,9 +241,6 @@ class ViewController: UIViewController {
       textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -11),
       textView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -100),
       textView.heightAnchor.constraint(equalToConstant: 100),
-
-      
-      
     ])
     
   }
@@ -257,7 +251,6 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return arraySkills.count
   }
-  
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
@@ -296,11 +289,13 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
       alert.addAction(addAction)
       present(alert, animated: true)
     } else {
-      arraySkills.remove(at: indexPath.row)
-      collectionView.deleteItems(at: [indexPath])
+      if mode {
+        arraySkills.remove(at: indexPath.row)
+        collectionView.deleteItems(at: [indexPath])
+      } else {
+        print("error")
+      }
     }
    
   }
-  
-  
 }
